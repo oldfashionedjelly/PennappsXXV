@@ -32,7 +32,6 @@
         <!-- Container for additional follow-up questions -->
         <div id="additionalQuestions"></div>
 
-        <button type="button" onclick="checkDisease()">Submit</button>
         <button type="button" onclick="diagnoseSpecificDisease()">Diagnose</button>
     </form>
 
@@ -41,7 +40,7 @@
     <script>
         function checkDisease() {
             // Mock variable to simulate the disease group detected by the ML model
-            const diseaseType = "COVID"; // This will be set dynamically in your actual case
+            const diseaseType = "Upper"; // This will be set dynamically in your actual case
 
             let additionalQuestions = "";
 
@@ -108,13 +107,13 @@
         }
 
         function diagnoseSpecificDisease() {
-            const diseaseType = "COVID"; // Simulate the result from your ML model
+            const diseaseType = "Upper"; // Simulate the result from your ML model
             let specificDisease = "Unknown";
 
             // Collect responses to follow-up questions
             if (diseaseType === "COVID") {
-                const soreThroat = document.querySelector('input[name="soreThroat"]:checked').value;
-                const tasteSmellLoss = document.querySelector('input[name="tasteSmellLoss"]:checked').value;
+                const soreThroat = document.querySelector('input[name="soreThroat"]:checked')?.value;
+                const tasteSmellLoss = document.querySelector('input[name="tasteSmellLoss"]:checked')?.value;
 
                 if (soreThroat === "yes" && tasteSmellLoss === "yes") {
                     specificDisease = "COVID-19";
@@ -122,19 +121,48 @@
                     specificDisease = "Common Cold";
                 }
             } else if (diseaseType === "Obstructive") {
-                const smokingHistory = document.querySelector('input[name="smokingHistory"]:checked').value;
-                const wheezing = document.querySelector('input[name="wheezing"]:checked').value;
+                const smokingHistory = document.querySelector('input[name="smokingHistory"]:checked')?.value;
+                const wheezing = document.querySelector('input[name="wheezing"]:checked')?.value;
 
                 if (smokingHistory === "yes" && wheezing === "yes") {
                     specificDisease = "COPD";
                 } else if (wheezing === "no") {
                     specificDisease = "Asthma";
+                } else {
+                    specificDisease = "Chronic Bronchitis"; // Default case for obstructive diseases
+                }
+            } else if (diseaseType === "Upper") {
+                const dustExposure = document.querySelector('input[name="dustExposure"]:checked')?.value;
+                const chestPain = document.querySelector('input[name="chestPain"]:checked')?.value;
+
+                if (dustExposure === "yes" && chestPain === "yes") {
+                    specificDisease = "Silicosis";
+                } else if (dustExposure === "no") {
+                    specificDisease = "Upper Lobe Pneumonia"; // Default case for upper diseases
+                } else {
+                    specificDisease = "Tuberculosis"; // Example additional case
+                }
+            } else if (diseaseType === "Lower") {
+                const mucus = document.querySelector('input[name="mucus"]:checked')?.value;
+                const highFever = document.querySelector('input[name="highFever"]:checked')?.value;
+
+                if (mucus === "yes" && highFever === "yes") {
+                    specificDisease = "Pneumonia";
+                } else if (mucus === "yes") {
+                    specificDisease = "Bronchitis";
+                } else if (highFever === "no") {
+                    specificDisease = "Bronchiolitis"; // Additional case
+                } else {
+                    specificDisease = "Tracheitis"; // Example fallback
                 }
             }
 
             // Display the result
             document.getElementById("result").innerText = "You may have: " + specificDisease;
         }
+
+        // Call this function on page load to display the initial follow-up questions
+        window.onload = checkDisease;
     </script>
 </body>
 </html>
