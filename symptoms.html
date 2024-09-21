@@ -39,12 +39,10 @@
 
     <script>
         function checkDisease() {
-            // Mock variable to simulate the disease group detected by the ML model
-            const diseaseType = "Upper"; // This will be set dynamically in your actual case
+            const diseaseType = "Obstructive"; // This will be set dynamically in your actual case
 
             let additionalQuestions = "";
 
-            // Based on the disease type, ask different follow-up questions
             switch (diseaseType) {
                 case "COVID":
                     additionalQuestions += `
@@ -102,15 +100,13 @@
                     additionalQuestions += "<p>No specific follow-up questions for this disease group.</p>";
             }
 
-            // Update the DOM to show follow-up questions
             document.getElementById("additionalQuestions").innerHTML = additionalQuestions;
         }
 
         function diagnoseSpecificDisease() {
-            const diseaseType = "Upper"; // Simulate the result from your ML model
+            const diseaseType = "Obstructive"; // Simulate the result from your ML model
             let specificDisease = "Unknown";
 
-            // Collect responses to follow-up questions
             if (diseaseType === "COVID") {
                 const soreThroat = document.querySelector('input[name="soreThroat"]:checked')?.value;
                 const tasteSmellLoss = document.querySelector('input[name="tasteSmellLoss"]:checked')?.value;
@@ -126,10 +122,10 @@
 
                 if (smokingHistory === "yes" && wheezing === "yes") {
                     specificDisease = "COPD";
-                } else if (wheezing === "no") {
-                    specificDisease = "Asthma";
+                } else if (smokingHistory === "yes" && wheezing === "no") {
+                    specificDisease = "Chronic Bronchitis";
                 } else {
-                    specificDisease = "Chronic Bronchitis"; // Default case for obstructive diseases
+                    specificDisease = "Asthma";
                 }
             } else if (diseaseType === "Upper") {
                 const dustExposure = document.querySelector('input[name="dustExposure"]:checked')?.value;
@@ -137,8 +133,10 @@
 
                 if (dustExposure === "yes" && chestPain === "yes") {
                     specificDisease = "Silicosis";
-                } else if (dustExposure === "no") {
-                    specificDisease = "Upper Lobe Pneumonia"; // Default case for upper diseases
+                } else if (dustExposure === "no" && chestPain === "yes") {
+                    specificDisease = "Upper Lobe Pneumonia";
+                } else if (dustExposure === "yes") {
+                    specificDisease = "Hypersensitivity Pneumonitis";
                 } else {
                     specificDisease = "Tuberculosis"; // Example additional case
                 }
@@ -157,7 +155,6 @@
                 }
             }
 
-            // Display the result
             document.getElementById("result").innerText = "You may have: " + specificDisease;
         }
 
