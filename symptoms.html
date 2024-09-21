@@ -29,7 +29,6 @@
         <input type="radio" name="fatigue" value="no"> No
         <br>
         
-        <!-- Container for additional follow-up questions -->
         <div id="additionalQuestions"></div>
 
         <button type="button" onclick="diagnoseSpecificDisease()">Diagnose</button>
@@ -39,7 +38,7 @@
 
     <script>
         function checkDisease() {
-            const diseaseType = "Obstructive"; // This will be set dynamically in your actual case
+            const diseaseType = "Obstructive"; // Change this
 
             let additionalQuestions = "";
 
@@ -104,7 +103,7 @@
         }
 
         function diagnoseSpecificDisease() {
-            const diseaseType = "Obstructive"; // Simulate the result from your ML model
+            const diseaseType = "Obstructive"; // Change this
             let specificDisease = "Unknown";
 
             if (diseaseType === "COVID") {
@@ -138,7 +137,7 @@
                 } else if (dustExposure === "yes") {
                     specificDisease = "Hypersensitivity Pneumonitis";
                 } else {
-                    specificDisease = "Tuberculosis"; // Example additional case
+                    specificDisease = "Tuberculosis"; 
                 }
             } else if (diseaseType === "Lower") {
                 const mucus = document.querySelector('input[name="mucus"]:checked')?.value;
@@ -149,16 +148,15 @@
                 } else if (mucus === "yes") {
                     specificDisease = "Bronchitis";
                 } else if (highFever === "no") {
-                    specificDisease = "Bronchiolitis"; // Additional case
+                    specificDisease = "Bronchiolitis"; 
                 } else {
-                    specificDisease = "Tracheitis"; // Example fallback
+                    specificDisease = "Tracheitis"; 
                 }
             }
 
             document.getElementById("result").innerText = "You may have: " + specificDisease;
         }
 
-        // Call this function on page load to display the initial follow-up questions
         window.onload = checkDisease;
     </script>
 </body>
